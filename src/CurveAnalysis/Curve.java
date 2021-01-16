@@ -93,31 +93,21 @@ public class Curve extends Pane {
 
     private double calcYValue(double x) {
         double y = 0;
-
-
-        //   double y =(values.get(4)*Math.pow(x,4)+values.get(3)*Math.pow(x,3)*+values.get(2)*Math.pow(x,2)+values.get(1)*x+values.get(0));
+        y = (values.get(4) * Math.pow(x, 4) + values.get(3) * Math.pow(x, 3) * +values.get(2) * Math.pow(x, 2) + values.get(1) * x + values.get(0));
 
         // System.out.println(y);
-
         double multiplyer = 1.;
 
         //alternativ
-
-
         for (double value : values) {
-
             y += value * multiplyer;
 
             multiplyer *= x;
-
-
         }
 
 
         //altanativ3
-
         /*
-
         y=values.get(4);
 
         for (int i=3;i>0;i--){
@@ -125,94 +115,61 @@ public class Curve extends Pane {
             y*=x;
 
             y+=values.get(i);
-
         }
-
-
-
          */
-
 
         return y;
 
     }
 
     private void analyseBehaviour() {
-
         if (values.get(0) != 0 && values.get(1) != 0 && values.get(2) != 0) {
-            System.out.println("rein");
             behaviour[4] = "das";
             pqFormel(values);
         }
         if (values.get(0) != 0 && values.get(1) != 0 && values.get(2) == 0 && values.get(3) == 0 && values.get(4) == 0) {
             if (values.get(1) < 0) {
-
                 double x0 = (values.get(0) / (values.get(1))) * -1;
-
-
                 behaviour[4] = "Nullstelle ist bei " + Math.round(x0 * 100.) / 100.;
-
             } else if (values.get(1) > 0) {
-
                 double x1 = values.get(0) / (-values.get(1));
-
                 behaviour[4] = "Nullstelle ist bei " + Math.round(x1 * 100.) / 100.;
-
             }
         }
-
-
     }
 
     private void pqFormel(ArrayList<Double> values) {
-
         String nullStele = "";
-
         double wertP, wertQ;
 
-
         wertP = values.get(1) / values.get(2);
-
-
         wertQ = values.get(0) / values.get(2);
 
-        wertP = Math.round(wertP * 100.) / 100.;
-
-        wertQ = Math.round(wertQ * 100.) / 100.;
+        wertP = Math.round(wertP * 100f) / 100f;
+        wertQ = Math.round(wertQ * 100f) / 100f;
 
 
         if ((Math.pow((wertP / 2), 2) - (wertQ)) > 0) {
-
             double x = -(wertP / 2) + Math.sqrt(Math.pow((wertP / 2), 2) - (wertQ));
-
             double x1 = -(wertP / 2) - Math.sqrt(Math.pow((wertP / 2), 2) - (wertQ));
-
-            nullStele = "bei x1 :\t" + Math.round(x * 100.) / 100. + "\nbei x2 :\t" + Math.round(x1 * 100.) / 100.;
-
+            nullStele = "bei x1 :\t" + Math.round(x * 100f) / 100f + "\nbei x2 :\t" + Math.round(x1 * 100f) / 100f;
         } else {
-
             nullStele = "" + (-wertP / 2);
-
         }
 
 
         if (nullStele.contains("NaN")) {
-
             behaviour[4] = "keine null stelle : " + nullStele;
-
-
             behaviour[4] = "Hat Null Stelle bei :" + nullStele + "und bei :";
-
         } else {
 
-
         }
-
-
         behaviour[4] = "Hat Null Stelle bei :" + nullStele;
-
     }
 
+    public int getZeroPoint() {
+        return 0;
+    }
 
     public String getBehaviour(int index) {
         if (index >= 0 && index <= 4) {
