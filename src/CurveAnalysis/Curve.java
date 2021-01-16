@@ -169,7 +169,7 @@ public class Curve extends Pane {
     }
 
     public Double getInitZeroPoint(double steps, int laps) {
-        if (steps == 0 ||laps == 0) return null;
+        if (steps == 0 || laps == 0) return null;
         double result;
         double negativeResult;
         double predictedZeroPoint = steps;
@@ -185,9 +185,12 @@ public class Curve extends Pane {
                     result += values.get(i);
                     negativeResult += values.get(i);
                 }
+                System.out.println("RESULT AT " + predictedZeroPoint + " IS: NR: " + negativeResult + " AND PR: " + result);
             }
             System.out.println("NEGATIVE RESULT: " + negativeResult + "\nPOSITIVE RESULT: " + result);
-            predictedZeroPoint += steps; //add original steps value to predictedZeroPoint
+
+            if (negativeResult != 0 && negativeResult != 0)
+                predictedZeroPoint += steps; //add original steps value to predictedZeroPoint
             System.out.println("PREDICTED ZERO POINT: " + predictedZeroPoint);
             lapsFinished++;
         } while (result != 0 && negativeResult != 0 && lapsFinished != laps);
