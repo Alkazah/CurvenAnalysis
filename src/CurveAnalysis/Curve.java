@@ -123,9 +123,10 @@ public class Curve extends Pane {
     }
 
     private void analyseBehaviour() {
+        System.out.println("ZERO POINT IS: " + getInitZeroPoint(1, 10));
         if (values.get(0) != 0 && values.get(1) != 0 && values.get(2) != 0) {
             behaviour[4] = "das";
-            pqFormel(values);
+            //pqFormel(values);
         }
         if (values.get(0) != 0 && values.get(1) != 0 && values.get(2) == 0 && values.get(3) == 0 && values.get(4) == 0) {
             if (values.get(1) < 0) {
@@ -167,8 +168,31 @@ public class Curve extends Pane {
         behaviour[4] = "Hat Null Stelle bei :" + nullStele;
     }
 
-    public int getZeroPoint() {
-        return 0;
+    public Double getInitZeroPoint(double steps, int laps) {
+        if (steps == 0 ||laps == 0) return null;
+        double result;
+        double negativeResult;
+        double predictedZeroPoint = steps;
+        int lapsFinished = 0;
+        do {
+            result = 0;
+            negativeResult = 0;
+            for (int i = 0; i < values.size(); i++) {
+                if (i > 0) {
+                    result += values.get(i) * Math.pow(predictedZeroPoint, i); //store a positive value
+                    negativeResult += values.get(i) * Math.pow(-predictedZeroPoint, i); //store a negative value
+                } else {
+                    result += values.get(i);
+                    negativeResult += values.get(i);
+                }
+            }
+            System.out.println("NEGATIVE RESULT: " + negativeResult + "\nPOSITIVE RESULT: " + result);
+            predictedZeroPoint += steps; //add original steps value to predictedZeroPoint
+            System.out.println("PREDICTED ZERO POINT: " + predictedZeroPoint);
+            lapsFinished++;
+        } while (result != 0 && negativeResult != 0 && lapsFinished != laps);
+        if (result != 0 && negativeResult != 0) return null;
+        return result != 0 ? predictedZeroPoint : -predictedZeroPoint;
     }
 
     public String getBehaviour(int index) {
